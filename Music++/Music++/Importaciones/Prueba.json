@@ -1,0 +1,34 @@
+{
+  "camaras":
+  [
+    { 
+      "nombre":"Camara 1",
+      "ip":    "172.16.0.10"
+    },
+    { 
+      "nombre":"Camara 2",
+      "ip":    "172.16.0.20"
+    },
+    { 
+      "nombre":"Camara 3",
+      "ip":    "172.16.0.30"
+    }
+  ]
+}
+{
+"Computadora":
+  [
+    { 
+      "nombre":"Camara 1",
+      "ip":    "172.16.0.10"
+    },
+    { 
+      "nombre":"Camara 2",
+      "ip":    "172.16.0.20"
+    },
+    { 
+      "nombre":"Camara 3",
+      "ip":    "172.16.0.30"
+    }
+  ]
+}

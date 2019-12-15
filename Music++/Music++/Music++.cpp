@@ -6,10 +6,12 @@
 #include <conio.h>
 #include <strsafe.h>
 #include <fstream>
-#include "rapidjson/document.h"
+#include "nlohmann/json.hpp"
 
+// por conveniencia 
+using json = nlohmann::json;
 using namespace std;
-using namespace rapidjson;
+
 
 //----------------------------Declaracion de funciones-----------------------
 void generarLinea(int t, int c);
@@ -28,6 +30,12 @@ int menu() {
 	generarLinea(9, 32);
 	generarEspacios(3, "");
 	generarEspacios(1, "1. Importar Musica");
+	generarEspacios(1, "");
+	generarEspacios(1, "2. Importar PlayList");
+	generarEspacios(1, ""); 
+	generarEspacios(1, "3. Explorar Musica");
+	generarEspacios(1, "");
+	generarEspacios(1, "4. Explorar Artistas");
 	generarEspacios(1, "");
 	generarEspacios(1, "8. Salir");
 	generarEspacios(5, "");
@@ -89,9 +97,10 @@ void TituloConsola() {
 }
 void Abrir(string ruta) {
 	
+	std::ifstream ifs(ruta);
+	json j = json::parse(ifs);
+
 	system("pause");
-	
-	
 }
 int main()
 {
@@ -102,7 +111,7 @@ int main()
 	do {
 		system("cls");
 		opc = menu();
-		char input[4];
+		char input[4] = {000};
 		string file;
 		switch (opc)
 		{

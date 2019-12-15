@@ -9,7 +9,6 @@
 #include "nlohmann/json.hpp"
 
 // por conveniencia 
-using json = nlohmann::json;
 using namespace std;
 
 
@@ -65,7 +64,7 @@ void generarEspacios(int t, string d) {
 		generarLinea(9, 32);
 		printf("%c", 186);
 		generarLinea(20, 32);
-		cout << d;
+		std::cout << d;
 		generarLinea(60 - d.size(), 32);
 		printf("%c", 186);
 		generarLinea(9, 32);
@@ -98,7 +97,23 @@ void TituloConsola() {
 void Abrir(string ruta) {
 	
 	std::ifstream ifs(ruta);
-	json j = json::parse(ifs);
+	nlohmann::json Libreria = nlohmann::json::parse(ifs);
+	for (const auto& Artista : Libreria["Library"]) 
+	{
+		std::cout << Artista["Artist"]["Name"]<<endl;
+		for (const auto& album : Artista["Artist"]["Albums"])
+		{
+			std::cout << "\t"<<  album["Name"] << endl;
+			std::cout << "\t\t" << album["Year"] << endl;
+			std::cout << "\t\t" << album["Month"] << endl;
+			for (const auto& canciones : album["Songs"])
+			{
+			std::cout << "\t\t\t" << canciones["Name"] << endl;
+			std::cout << "\t\t\t" << canciones["File"] << endl;
+			std::cout << "\t\t\t" << canciones["Rating"] << endl<<endl;
+			}
+		}
+	}
 
 	system("pause");
 }

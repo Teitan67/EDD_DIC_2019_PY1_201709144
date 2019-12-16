@@ -8,11 +8,14 @@
 #include <fstream>
 #include "nlohmann/json.hpp"
 #include "EDD/ListaSimple.h"
+#include "EDD/ListaDoble.h"
 #include "EDD/ListaCircularDoble.h"
-#include "ListaDoble.h"
+#include "Pila.h"
+
 
 // por conveniencia 
 using namespace std;
+Pila<int> *P = new Pila<int>();
 ListaSimple<int> *LS = new ListaSimple<int>();
 ListaDoble<int> *LD = new ListaDoble<int>();
 ListaCircularDoble<int> *LCD = new ListaCircularDoble<int>();
@@ -144,12 +147,11 @@ int main()
 			
 			break;
 		case 2:
-			LD->add_first(1);
-			LD->add_first(2);
-			LD->add_first(3);
-			LD->add_first(4);
-			LD->add_first(5);
-			LD->graficar();
+			P->push(1);
+			P->push(2);
+			P->push(3);
+			P->push(4);
+			P->graficar();
 			system("pause");
 			break;
 		case 8:

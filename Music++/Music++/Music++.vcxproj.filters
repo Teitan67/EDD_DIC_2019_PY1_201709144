@@ -18,7 +18,7 @@
     <ClInclude Include="pch.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ListaDoble.h">
+    <ClInclude Include="pila.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClCompile Include="Music++.cpp">
       <Filter>Archivos de encabezado\Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="ListaDoble.cpp">
+    <ClCompile Include="pila.cpp">
       <Filter>Archivos de encabezado\Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

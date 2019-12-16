@@ -7,9 +7,15 @@
 #include <strsafe.h>
 #include <fstream>
 #include "nlohmann/json.hpp"
+#include "EDD/ListaSimple.h"
+#include "EDD/ListaCircularDoble.h"
+#include "ListaDoble.h"
 
 // por conveniencia 
 using namespace std;
+ListaSimple<int> *LS = new ListaSimple<int>();
+ListaDoble<int> *LD = new ListaDoble<int>();
+ListaCircularDoble<int> *LCD = new ListaCircularDoble<int>();
 
 
 //----------------------------Declaracion de funciones-----------------------
@@ -94,8 +100,8 @@ void TituloConsola() {
 		}
 	}
 }
-void Abrir(string ruta) {
-	
+void Abrir(string ruta) 
+{
 	std::ifstream ifs(ruta);
 	nlohmann::json Libreria = nlohmann::json::parse(ifs);
 	for (const auto& Artista : Libreria["Library"]) 
@@ -136,6 +142,15 @@ int main()
 			cin >> file;
 			Abrir("Importaciones/"+file);
 			
+			break;
+		case 2:
+			LD->add_first(1);
+			LD->add_first(2);
+			LD->add_first(3);
+			LD->add_first(4);
+			LD->add_first(5);
+			LD->graficar();
+			system("pause");
 			break;
 		case 8:
 			return 0;

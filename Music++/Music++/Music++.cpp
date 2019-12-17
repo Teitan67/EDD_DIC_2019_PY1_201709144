@@ -10,7 +10,8 @@
 #include "EDD/ListaSimple.h"
 #include "EDD/ListaDoble.h"
 #include "EDD/ListaCircularDoble.h"
-#include "Pila.h"
+#include "EDD/Pila.h"
+#include "EDD/cola.h"
 
 
 // por conveniencia 
@@ -19,6 +20,7 @@ Pila<int> *P = new Pila<int>();
 ListaSimple<int> *LS = new ListaSimple<int>();
 ListaDoble<int> *LD = new ListaDoble<int>();
 ListaCircularDoble<int> *LCD = new ListaCircularDoble<int>();
+cola<int> *c = new cola<int>();
 
 
 //----------------------------Declaracion de funciones-----------------------
@@ -147,11 +149,6 @@ int main()
 			
 			break;
 		case 2:
-			P->push(1);
-			P->push(2);
-			P->push(3);
-			P->push(4);
-			P->graficar();
 			system("pause");
 			break;
 		case 8:

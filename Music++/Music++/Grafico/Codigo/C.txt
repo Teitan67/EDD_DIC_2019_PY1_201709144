@@ -1,0 +1,16 @@
+digraph columnas{
+    rankdir=TB;
+    node [shape = record];
+    graph [ranksep="1"];
+
+    label="Cola";
+    nodo1[label="4"];
+    nodo2[label="3"];
+    nodo3[label="2"];
+
+
+    nodo1->nodo2
+    nodo2->nodo1
+    nodo2->nodo3
+    nodo3->nodo2
+}

@@ -153,11 +153,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="albums.h" />
+    <ClInclude Include="Artista.h" />
     <ClInclude Include="canciones.h" />
     <ClInclude Include="cuboDisperso.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="albums.cpp" />
+    <ClCompile Include="Artista.cpp" />
     <ClCompile Include="canciones.cpp" />
     <ClCompile Include="cuboDisperso.cpp" />
     <ClCompile Include="Music++.cpp" />

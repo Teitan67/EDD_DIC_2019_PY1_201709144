@@ -1,13 +1,14 @@
 #pragma once
 #include <fstream> 
-#include <string> 
-#include "canciones.h"
+#include <string>
+#include "albums.h"
 using namespace std;
 class cuboDisperso
 {
-	class Nodo {
+	class Nodo
+	{
 	public:
-		Nodo(string dato,int x, string y )
+		Nodo(album *dato, int x, int y)
 		{
 			//Punteros
 			arriba = 0;
@@ -23,16 +24,32 @@ class cuboDisperso
 			//Rating
 			rating = 0;
 		}
-
+		Nodo(string name, int x, int y)
+		{
+			//Punteros
+			arriba = 0;
+			abajo = 0;
+			izquierda = 0;
+			derecha = 0;
+			adelante = 0;
+			atras = 0;
+			//Datos
+			this->dato = dato;
+			this->x = x;
+			this->y = y;
+			//Rating
+			rating = 0;
+		}
 		Nodo *getArriba() { return arriba; }
 		Nodo *getAbajo() { return abajo; }
 		Nodo *getIzquierda() { return izquierda; }
 		Nodo *getDerecha() { return derecha; }
 		Nodo *getAdelante() { return adelante; }
 		Nodo *getAtras() { return atras; }
-		int getx() { return x; }
-		string getY() { return y; }
+		int getx() { return this->x; }
+		int getY() { return y; }
 
+		void setDato(album *data) { dato = data; }
 		void setArriba(Nodo *n) { arriba = n; }
 		void setAbajo(Nodo *n) { abajo = n; }
 		void setIzquierda(Nodo *n) { izquierda = n; }
@@ -40,9 +57,9 @@ class cuboDisperso
 		void setAdelante(Nodo *n) { adelante = n; }
 		void setAtras(Nodo *n) { atras = n; }
 		void setX(int x) { this->x = x; }
-		void setY(string y) { this->y = y; }
+		void setY(int y) { this->y = y; }
 
-		string getDato() { return this->dato; }
+		album* getDato() { return this->dato; }
 	private:
 		Nodo *arriba;
 		Nodo *abajo;
@@ -50,56 +67,190 @@ class cuboDisperso
 		Nodo *derecha;
 		Nodo *adelante;
 		Nodo *atras;
-		string  dato;
+		album  *dato;
 		int x;
-		string y;
+		int y;
 		int rating;
+		string name;
 	};
 public:
-	cuboDisperso(string artista) {
-		this->root =new Nodo(artista,0,"0");
+	cuboDisperso(string root) {
+		this->root = new Nodo(root, 0, 0);
 	}
-	Nodo* buscarFila(string y);
-	Nodo* buscarColumna(int x);
-	Nodo* buscarZ(string z,Nodo* x);
-	void insertar(string album, int year, string month);
+
+	Nodo* buscarColumna(int x) {
+		Nodo *aux = this->root;
+		while (aux != 0)
+		{
+			if (aux->getx() == x) { return aux; }
+			aux = aux->getDerecha();
+		}
+		return 0;
+	}
+	cuboDisperso::Nodo* buscarFila(int y) {
+		Nodo *aux = this->root;
+		while (aux != 0)
+		{
+			if (aux->getY() == y) { return aux; }
+			aux = aux->getAbajo();
+		}
+		return 0;
+	}
+	cuboDisperso::Nodo* buscarZ(string z, cuboDisperso::Nodo* x) {
+		Nodo *aux = x;
+		while (aux != 0)
+		{
+			if (aux->getDato()->_albumName.compare(z) == 0) { return aux; }
+			aux = aux->getAbajo();
+		}
+		return 0;
+	}
+	cuboDisperso::Nodo* buscarNodo(int x, int y) {
+		Nodo *aux = buscarColumna(x);
+		if (aux != 0) {
+			Nodo *data = aux;
+			while (data != 0)
+			{
+				if (data->getY() == y) { return aux; }
+				data = data->getAbajo();
+			}
+		}
+		
+		return this->root;
+	}
+	Nodo* crearColumna(int x) 
+	{
+		Nodo *cabeza_columna = this->root;
+		Nodo *columna = this->insertar_ordenado_columna(new Nodo(to_string(x), x, -1), cabeza_columna);
+		return columna;
+	}
+	Nodo* crearFila(int y)
+	{
+		Nodo *cabeza_fila = this->root;
+		Nodo *fila = this->insertar_ordenado_fila(new Nodo(to_string(y), -1, y), cabeza_fila);
+		return fila;
+	}
+	void insertar(string album, int x, int y) {
+
+		cuboDisperso::Nodo *nuevo = new cuboDisperso::Nodo(album, x, y);
+		cuboDisperso::Nodo *columna = this->buscarColumna(x);
+		cuboDisperso::Nodo *fila = this->buscarFila(y);
+		//cuboDisperso::Nodo *Z = this->buscarZ(album, fila);
+		if (columna==0&&fila==0)
+		{
+			columna=crearColumna(x);
+			
+			fila = crearFila(y);
+			
+			nuevo = insertar_ordenado_columna(nuevo,fila);
+			nuevo = insertar_ordenado_fila(nuevo, columna);
+		}
+		else if(columna==0&&fila!=0)
+		{
+		
+			columna = crearColumna(x);
+			nuevo = insertar_ordenado_columna(nuevo,fila);
+			nuevo = insertar_ordenado_fila(nuevo,columna);
+			return;
+		}
+		else if (columna!=0&&fila==0)
+		{
+			fila = crearFila(y);
+			nuevo = insertar_ordenado_columna(nuevo,fila);
+			nuevo = insertar_ordenado_fila(nuevo, columna);
+			return;
+		}
+		else if (columna!=0&&fila!=0)
+		{
+			nuevo = insertar_ordenado_columna(nuevo,fila);
+			nuevo = insertar_ordenado_fila(nuevo,columna);
+		}
+	}
+
+	cuboDisperso::Nodo* insertar_ordenado_columna(Nodo* nuevo, Nodo* columna)
+	{
+		Nodo *temp = columna;
+		bool bandera = false;
+		while (true)
+		{
+			if (temp->getx() == nuevo->getx())
+			{
+				temp->setY(nuevo->getY());
+				temp->setDato(nuevo->getDato());
+				return temp;
+			}
+			else if (temp->getx() > nuevo->getx())
+			{
+				bandera = true;
+
+			}
+			if (temp->getDerecha() != 0)
+			{
+				temp = temp->getDerecha();
+			}
+			else {
+				break;
+			}
+		}
+			if (bandera)
+			{
+				nuevo->setDerecha(temp);
+				temp->getIzquierda()->setDerecha(nuevo);
+				nuevo->setIzquierda(temp->getIzquierda());
+				temp->setIzquierda(nuevo);
+			}
+			else
+			{
+				temp->setDerecha(nuevo);
+				nuevo->setIzquierda(temp);
+			}
+			return nuevo;
+	}
+	cuboDisperso::Nodo* insertar_ordenado_fila(Nodo* nuevo, Nodo* fila)
+	{
+		Nodo *temp = fila;
+		bool bandera = false;
+		while (true)
+		{
+			if (temp->getY() == nuevo->getY())
+			{
+				temp->setX(nuevo->getx());
+				temp->setDato(nuevo->getDato());
+				return temp;
+			}
+			else if (temp->getY() > nuevo->getY())
+			{
+				bandera = true;
+				break;
+			}
+			if (temp->getAbajo() != 0)
+			{
+				temp = temp->getAbajo();
+			}
+			else {
+				break;
+			}
+		}
+			if (bandera)
+			{
+				nuevo->setAbajo(temp);
+				temp->getArriba()->setAbajo(nuevo);
+				nuevo->setArriba(temp->getArriba());
+				temp->setArriba(nuevo);
+			}
+			else
+			{
+				temp->setAbajo(nuevo);
+				nuevo->setArriba(temp);
+			}
+			return nuevo;
+
+		
+		return 0;
+	}
+	
 private:
 	Nodo *root;
 };
-cuboDisperso::Nodo* cuboDisperso::buscarColumna(int x){
-	Nodo *aux = this->root;
-	while (aux!=0)
-	{
-		if (aux->getx()==x) {return aux;}
-		aux = aux->getDerecha();
-	}
-	return 0;
-}
-cuboDisperso::Nodo* cuboDisperso::buscarFila(string y) {
-	Nodo *aux = this->root;
-	while (aux != 0)
-	{
-		if (aux->getY() == y) { return aux; }
-		aux = aux->getAbajo();
-	}
-	return 0;
-}
-cuboDisperso::Nodo* cuboDisperso::buscarZ(string z, cuboDisperso::Nodo* x) {
-	Nodo *aux = x;
-	while (aux != 0)
-	{
-		if (aux->getDato() == z) { return aux; }
-		aux = aux->getAbajo();
-	}
-	return 0;
-}
-void cuboDisperso::insertar(string album, int year, string month){
 
-	cuboDisperso::Nodo *nuevo = new cuboDisperso::Nodo(album,year,month);
-	cuboDisperso::Nodo *columna=this->buscarColumna(year);
-	cuboDisperso::Nodo *fila = this->buscarFila(month);
-	cuboDisperso::Nodo *Z = this->buscarZ(album,fila);
-
-
-}
 

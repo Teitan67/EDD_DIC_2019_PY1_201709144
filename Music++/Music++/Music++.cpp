@@ -6,21 +6,27 @@
 #include <conio.h>
 #include <strsafe.h>
 #include <fstream>
+#include <sstream>
+#include <cstdlib>
 #include "nlohmann/json.hpp"
 #include "EDD/ListaSimple.h"
 #include "EDD/ListaDoble.h"
 #include "EDD/ListaCircularDoble.h"
 #include "EDD/Pila.h"
 #include "EDD/cola.h"
+#include "Artista.h"
 
 
 // por conveniencia 
 using namespace std;
+ 
+//EDD
 Pila<int> *P = new Pila<int>();
-ListaSimple<int> *LS = new ListaSimple<int>();
-ListaDoble<int> *LD = new ListaDoble<int>();
+ListaSimple *LS = new ListaSimple();
+ListaDoble *LD = new ListaDoble();
 ListaCircularDoble<int> *LCD = new ListaCircularDoble<int>();
 cola<int> *c = new cola<int>();
+
 
 
 //----------------------------Declaracion de funciones-----------------------
@@ -107,16 +113,24 @@ void TituloConsola() {
 }
 void Abrir(string ruta) 
 {
+	Artista* artist;
+	string a = "a";
+	
 	std::ifstream ifs(ruta);
 	nlohmann::json Libreria = nlohmann::json::parse(ifs);
-	for (const auto& Artista : Libreria["Library"]) 
-	{
-		std::cout << Artista["Artist"]["Name"]<<endl;
-		for (const auto& album : Artista["Artist"]["Albums"])
+	for (const auto& Artista0 : Libreria["Library"]) 
+	{		
+		artist = new Artista(Artista0["Artist"]["Name"]);
+		LD->add_first_LD(artist);
+		for (const auto& album : Artista0["Artist"]["Albums"])
 		{
-			std::cout << "\t"<<  album["Name"] << endl;
+		
+			std::cout << "\t\t"<<  album["Name"] << endl;
 			std::cout << "\t\t" << album["Year"] << endl;
 			std::cout << "\t\t" << album["Month"] << endl;
+			//alb = artist->getAlbum();
+
+			//alb->insertar("a", 1, ye);
 			for (const auto& canciones : album["Songs"])
 			{
 			std::cout << "\t\t\t" << canciones["Name"] << endl;
@@ -125,7 +139,6 @@ void Abrir(string ruta)
 			}
 		}
 	}
-
 	system("pause");
 }
 int main()
@@ -133,7 +146,7 @@ int main()
 	int opc = 0;
 	system("mode con: cols=100 lines=40");
 	TituloConsola();
-
+	cuboDisperso * alb;
 	do {
 		system("cls");
 		opc = menu();
@@ -149,6 +162,16 @@ int main()
 			
 			break;
 		case 2:
+			
+			alb = new cuboDisperso("Artista");
+			alb->insertar("dato", 1, 1);
+			alb->insertar("dato", 1, 3);
+			alb->insertar("dato", 2, 1);
+			alb->insertar("dato", 2, 2);
+			alb->insertar("dato", 1, 2);
+			cout << endl << alb->buscarNodo(-1, -1)->getDato() << endl;
+			//cout<<endl<<alb->buscarNodo(1,4)->getDato()<<endl;
+
 			system("pause");
 			break;
 		case 8:

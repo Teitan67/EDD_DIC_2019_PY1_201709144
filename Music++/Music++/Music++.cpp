@@ -147,11 +147,11 @@ int main()
 	system("mode con: cols=100 lines=40");
 	TituloConsola();
 	cuboDisperso * alb;
+	string file="";
 	do {
 		system("cls");
 		opc = menu();
 		char input[4] = {000};
-		string file;
 		switch (opc)
 		{
 		case 1:
@@ -164,12 +164,12 @@ int main()
 		case 2:
 			
 			alb = new cuboDisperso("Artista");
-			alb->insertar("dato", 1, 1);
-			alb->insertar("dato", 1, 3);
-			alb->insertar("dato", 2, 1);
-			alb->insertar("dato", 2, 2);
-			alb->insertar("dato", 1, 2);
-			cout << endl << alb->buscarNodo(-1, -1)->getDato() << endl;
+			alb->insertar("dato1", 1, 1);
+			alb->insertar("dato2", 1, 3);
+			alb->insertar("dato3", 2019, 12);
+			alb->insertar("dato4", 2018, 12);
+			alb->insertar("dato5", 2019, 11);
+			cout << "Dato: " << endl << alb->buscarNodo("dato4")->getEtiqueta() << endl;
 			//cout<<endl<<alb->buscarNodo(1,4)->getDato()<<endl;
 
 			system("pause");

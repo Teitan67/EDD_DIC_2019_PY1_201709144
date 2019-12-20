@@ -8,22 +8,6 @@ class cuboDisperso
 	class Nodo
 	{
 	public:
-		Nodo(album *dato, int x, int y)
-		{
-			//Punteros
-			arriba = 0;
-			abajo = 0;
-			izquierda = 0;
-			derecha = 0;
-			adelante = 0;
-			atras = 0;
-			//Datos
-			this->dato = dato;
-			this->x = x;
-			this->y = y;
-			//Rating
-			rating = 0;
-		}
 		Nodo(string name, int x, int y)
 		{
 			//Punteros
@@ -34,6 +18,7 @@ class cuboDisperso
 			adelante = 0;
 			atras = 0;
 			//Datos
+			this->name = name;
 			this->dato = dato;
 			this->x = x;
 			this->y = y;
@@ -46,6 +31,7 @@ class cuboDisperso
 		Nodo *getDerecha() { return derecha; }
 		Nodo *getAdelante() { return adelante; }
 		Nodo *getAtras() { return atras; }
+		string getEtiqueta() { return this->name; }
 		int getx() { return this->x; }
 		int getY() { return y; }
 
@@ -75,7 +61,7 @@ class cuboDisperso
 	};
 public:
 	cuboDisperso(string root) {
-		this->root = new Nodo(root, 0, 0);
+		this->root = new Nodo(root, -1, -1);
 	}
 
 	Nodo* buscarColumna(int x) {
@@ -111,13 +97,31 @@ public:
 			Nodo *data = aux;
 			while (data != 0)
 			{
-				if (data->getY() == y) { return aux; }
+				if (data->getY() == y) { return data; }
 				data = data->getAbajo();
 			}
 		}
 		
-		return this->root;
+		return 0;
 	}
+	cuboDisperso::Nodo* buscarNodo(string entrada) {
+		Nodo *b_y = this->root;
+		if (b_y != 0) {
+			while (b_y->getAbajo() != 0)
+			{
+				Nodo *b_x = b_y->getAbajo();
+				while (b_x->getDerecha()!=0)
+				{
+					b_x = b_x->getDerecha();
+					if ((b_x->getEtiqueta().compare(entrada) == 0)) { return b_x;break; }
+				}
+				b_y = b_y->getAbajo();
+			}
+		}
+
+		return 0;
+	}
+
 	Nodo* crearColumna(int x) 
 	{
 		Nodo *cabeza_columna = this->root;

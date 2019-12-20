@@ -19,6 +19,7 @@ class ListaDoble
 		void setNext(Nodo *n) { next = n; }
 		void setBefore(Nodo *n) { before = n; }
 		Artista *getDato() { return dato; }
+		void setDato(Artista *a) { this->dato = a; }
 	private:
 		Nodo *next;
 		Nodo *before;
@@ -65,13 +66,43 @@ public:
 		}
 		return 0;
 	}
+	
+	void ordenarLista()
+	{
+		Nodo *actual, *siguiente;
+		Artista* t;
+
+		actual = this->first;
+		if (actual != 0) {
+			while (actual->getNext() != 0)
+			{
+				siguiente = actual->getNext();
+
+				while (siguiente != 0)
+				{
+					if ((actual->getDato()->getName().compare(siguiente->getDato()->getName())) > 0)
+					{
+						t = siguiente->getDato();
+						siguiente->setDato(actual->getDato());
+						actual->setDato(t);
+					}
+					siguiente = siguiente->getNext();
+				}
+				actual = actual->getNext();
+				siguiente = actual->getNext();
+
+			}
+
+		}
+	}
+
 	void graficar_LD() {
 		std::ofstream dot(".\\grafico\\codigo\\LD.txt", std::ofstream::out);
 		dot << "digraph columnas{" << endl;
 		dot << "    rankdir=TB;" << endl;
 		dot << "    node [shape = box];" << endl;
 		dot << "    graph [ranksep=\"1\"];" << endl << endl;
-		dot << "    label=\"Lista Doble\";" << endl;
+		dot << "    label=\"Lista Doble de Artistas\";" << endl;
 
 		for (int i = 1;i <= this->getSize_LD();i++) {
 			dot << "    nodo" << i << "[label=\"" << this->get_element_at_LD(i - 1)->getName() << "\"];" << endl;

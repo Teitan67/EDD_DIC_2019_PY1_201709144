@@ -110,12 +110,15 @@ public:
 			while (b_y->getAbajo() != 0)
 			{
 				Nodo *b_x = b_y->getAbajo();
-				while (b_x->getDerecha()!=0)
+				if (b_x!=0)
 				{
-					b_x = b_x->getDerecha();
-					if ((b_x->getEtiqueta().compare(entrada) == 0)) { return b_x;break; }
+					while (b_x->getDerecha() != 0)
+					{
+						b_x = b_x->getDerecha();
+						if ((b_x->getEtiqueta().compare(entrada) == 0)) { return b_x;break; }
+					}
+					b_y = b_y->getAbajo();
 				}
-				b_y = b_y->getAbajo();
 			}
 		}
 
@@ -137,37 +140,45 @@ public:
 	void insertar(string album, int x, int y) {
 
 		cuboDisperso::Nodo *nuevo = new cuboDisperso::Nodo(album, x, y);
-		cuboDisperso::Nodo *columna = this->buscarColumna(x);
-		cuboDisperso::Nodo *fila = this->buscarFila(y);
-		//cuboDisperso::Nodo *Z = this->buscarZ(album, fila);
-		if (columna==0&&fila==0)
-		{
-			columna=crearColumna(x);
+		Nodo *z=buscarNodo(x,y);
+		if (z != 0) {
+			z->setAdelante(nuevo);
+			nuevo->setAbajo(z);
 			
-			fila = crearFila(y);
-			
-			nuevo = insertar_ordenado_columna(nuevo,fila);
-			nuevo = insertar_ordenado_fila(nuevo, columna);
 		}
-		else if(columna==0&&fila!=0)
+		else
 		{
-		
-			columna = crearColumna(x);
-			nuevo = insertar_ordenado_columna(nuevo,fila);
-			nuevo = insertar_ordenado_fila(nuevo,columna);
-			return;
-		}
-		else if (columna!=0&&fila==0)
-		{
-			fila = crearFila(y);
-			nuevo = insertar_ordenado_columna(nuevo,fila);
-			nuevo = insertar_ordenado_fila(nuevo, columna);
-			return;
-		}
-		else if (columna!=0&&fila!=0)
-		{
-			nuevo = insertar_ordenado_columna(nuevo,fila);
-			nuevo = insertar_ordenado_fila(nuevo,columna);
+			cuboDisperso::Nodo *columna = this->buscarColumna(x);
+			cuboDisperso::Nodo *fila = this->buscarFila(y);
+			if (columna == 0 && fila == 0)
+			{
+				columna = crearColumna(x);
+
+				fila = crearFila(y);
+
+				nuevo = insertar_ordenado_columna(nuevo, fila);
+				nuevo = insertar_ordenado_fila(nuevo, columna);
+			}
+			else if (columna == 0 && fila != 0)
+			{
+
+				columna = crearColumna(x);
+				nuevo = insertar_ordenado_columna(nuevo, fila);
+				nuevo = insertar_ordenado_fila(nuevo, columna);
+				return;
+			}
+			else if (columna != 0 && fila == 0)
+			{
+				fila = crearFila(y);
+				nuevo = insertar_ordenado_columna(nuevo, fila);
+				nuevo = insertar_ordenado_fila(nuevo, columna);
+				return;
+			}
+			else if (columna != 0 && fila != 0)
+			{
+				nuevo = insertar_ordenado_columna(nuevo, fila);
+				nuevo = insertar_ordenado_fila(nuevo, columna);
+			}
 		}
 	}
 
@@ -252,7 +263,41 @@ public:
 		
 		return 0;
 	}
-	
+	void graficar_cubo() 
+	{
+		Nodo *aux = this->root;
+		std::ofstream dot(".\\grafico\\codigo\\cubo.txt", std::ofstream::out);
+		dot << "digraph cubo{" << endl;
+		dot << "    rankdir=LR;" << endl;
+		dot << "    node [shape = box, color=cornflowerblue];" << endl;
+		dot << "    graph [ranksep=\"1\"];" << endl << endl;
+		dot << "    label=\"Cubo Ortogonal\";" << endl;
+
+		if (aux == 0) { dot << "    nodo" << 0 << "[label=\"" << "Lista Vacia" << "\"];" << endl; }
+		int i=0;
+		Nodo *aux2;
+		while (aux!= 0)
+		{
+			aux2 = aux;
+			while (aux2!=0)
+			{
+				dot << "    nodo"<<i++  << "[label=\"" << aux2->getEtiqueta() << "\", pos=\""<<aux2->getx()<<","<<aux2->getY()<<"!\"];" << endl;
+				if (aux2->getAdelante() != 0) {
+					dot << "    nodo" << i << "z[label=\"" << aux2->getAdelante()->getEtiqueta() << "\", pos=\"" << aux2->getAdelante()->getx()+0.2 << "," << aux2->getAdelante()->getY()+0.2 << "!\"];" << endl;
+				}
+				aux2 = aux2->getDerecha();
+				
+			}
+			aux = aux->getAbajo();
+		}
+		
+		
+		
+		dot << "}" << endl;
+		dot.close();
+		system("neato -Tpng .\\grafico\\codigo\\cubo.txt -o .\\grafico\\cubo.png");
+		system(".\\grafico\\cubo.png");
+	}
 private:
 	Nodo *root;
 };

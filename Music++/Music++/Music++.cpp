@@ -53,6 +53,8 @@ int menu() {
 	generarEspacios(1, "");
 	generarEspacios(1, "4. Explorar Artistas");
 	generarEspacios(1, "");
+	generarEspacios(1, "5. Artist Report");
+	generarEspacios(1, "");
 	generarEspacios(1, "8. Salir");
 	generarEspacios(5, "");
 	generarLinea(9, 32);
@@ -146,7 +148,7 @@ int main()
 	int opc = 0;
 	system("mode con: cols=100 lines=40");
 	TituloConsola();
-	cuboDisperso * alb;
+	cuboDisperso * alb = new cuboDisperso("Artista1");
 	string file="";
 	do {
 		system("cls");
@@ -163,16 +165,21 @@ int main()
 			break;
 		case 2:
 			
-			alb = new cuboDisperso("Artista");
-			alb->insertar("dato1", 1, 1);
-			alb->insertar("dato2", 1, 3);
-			alb->insertar("dato3", 2019, 12);
-			alb->insertar("dato4", 2018, 12);
-			alb->insertar("dato5", 2019, 11);
-			cout << "Dato: " << endl << alb->buscarNodo("dato4")->getEtiqueta() << endl;
+			alb->insertar("dato1", 8, 2);
+			alb->insertar("dato2", 100, 2);
+			//alb->insertar("dato3", 1, 6);
+			//alb->insertar("dato4", 1, 6);
+			//alb->insertar("dato5", 1, 10);
+			
+			//cout << "Dato: " << endl << alb->buscarNodo("dato4")->getEtiqueta() << endl;
+			alb->graficar_cubo();
 			//cout<<endl<<alb->buscarNodo(1,4)->getDato()<<endl;
 
 			system("pause");
+			break;
+		case 5:
+			LD->ordenarLista();
+			LD->graficar_LD();
 			break;
 		case 8:
 			return 0;

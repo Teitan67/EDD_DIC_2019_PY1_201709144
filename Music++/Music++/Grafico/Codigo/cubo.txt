@@ -1,0 +1,13 @@
+digraph cubo{
+    rankdir=LR;
+    node [shape = box, color=cornflowerblue];
+    graph [ranksep="1"];
+
+    label="Cubo Ortogonal";
+    nodo0[label="Artista1", pos="-1,-1!"];
+    nodo1[label="8", pos="8,-1!"];
+    nodo2[label="100", pos="100,-1!"];
+    nodo3[label="2", pos="-1,2!"];
+    nodo4[label="dato1", pos="8,2!"];
+    nodo5[label="dato2", pos="100,2!"];
+}

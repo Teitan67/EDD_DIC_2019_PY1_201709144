@@ -3,10 +3,10 @@ digraph columnas{
     node [shape = box];
     graph [ranksep="1"];
 
-    label="Lista Doble";
+    label="Lista Doble de Artistas";
     nodo1[label="As I Lay Dying"];
-    nodo2[label="Underoath"];
-    nodo3[label="As I Lay Dying"];
+    nodo2[label="As I Lay Dying"];
+    nodo3[label="Underoath"];
     nodo4[label="Underoath"];
 
 

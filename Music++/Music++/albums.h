@@ -12,11 +12,13 @@ public:
 		this->_year = year;
 		this->_month = month;
 		this->canciones = new ListaSimple();
+		rating = 0;
 	}
 public:
 	string _albumName;
 	string _year;
 	string _month;
 	ListaSimple *canciones;
+	int rating;
 	
 };

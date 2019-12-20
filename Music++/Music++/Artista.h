@@ -9,6 +9,7 @@ public:
 	{
 		this->_nameArtist = name;
 		this->Albums = new cuboDisperso(_nameArtist);
+		rating = 0;
 	}
 	string getName() { return this->_nameArtist; }
 	void setName(string name) { this->_nameArtist = name; }
@@ -16,4 +17,5 @@ public:
 public:
 	string _nameArtist;
 	cuboDisperso *Albums;
+	int rating;
 };

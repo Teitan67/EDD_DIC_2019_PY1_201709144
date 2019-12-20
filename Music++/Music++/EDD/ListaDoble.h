@@ -95,6 +95,34 @@ public:
 
 		}
 	}
+	void ordenarListaRating()
+	{
+		Nodo *actual, *siguiente;
+		Artista* t;
+
+		actual = this->first;
+		if (actual != 0) {
+			while (actual->getNext() != 0)
+			{
+				siguiente = actual->getNext();
+
+				while (siguiente != 0)
+				{
+					if (actual->getDato()->rating < siguiente->getDato()->rating)
+					{
+						t = siguiente->getDato();
+						siguiente->setDato(actual->getDato());
+						actual->setDato(t);
+					}
+					siguiente = siguiente->getNext();
+				}
+				actual = actual->getNext();
+				siguiente = actual->getNext();
+
+			}
+
+		}
+	}
 
 	void graficar_LD() {
 		std::ofstream dot(".\\grafico\\codigo\\LD.txt", std::ofstream::out);
@@ -105,7 +133,7 @@ public:
 		dot << "    label=\"Lista Doble de Artistas\";" << endl;
 
 		for (int i = 1;i <= this->getSize_LD();i++) {
-			dot << "    nodo" << i << "[label=\"" << this->get_element_at_LD(i - 1)->getName() << "\"];" << endl;
+			dot << "    nodo" << i << "[label=\"" << this->get_element_at_LD(i - 1)->getName() << "\n"<< this->get_element_at_LD(i - 1)->rating<<"\"];" << endl;
 		}
 		dot << endl << endl;
 		for (int i = 1;i < this->getSize_LD();i++) {
@@ -119,6 +147,36 @@ public:
 		dot.close();
 		system("dot -Tpng .\\grafico\\codigo\\LD.txt -o .\\grafico\\LD.png");
 		system(".\\grafico\\LD.png");
+	}
+	void graficar_LD_R() {
+		std::ofstream dot(".\\grafico\\codigo\\RA.txt", std::ofstream::out);
+		dot << "digraph columnas{" << endl;
+		dot << "    rankdir=TB;" << endl;
+		dot << "    node [shape = box];" << endl;
+		dot << "    graph [ranksep=\"1\"];" << endl << endl;
+		dot << "    label=\"Top 5 de Artistas\";" << endl;
+		int rango = 0;
+		if (this->getSize_LD() < 5) {
+			rango = this->getSize_LD();
+		}
+		else {
+			rango = 5;
+		}
+		for (int i = 1;i <= rango;i++) {
+			dot << "    nodo" << i << "[label=\"" << this->get_element_at_LD(i - 1)->getName() << "\n" << this->get_element_at_LD(i - 1)->rating << "\"];" << endl;
+		}
+		dot << endl << endl;
+		for (int i = 1;i < rango;i++) {
+
+			dot << "    nodo" << i << "->nodo" << (i + 1) << endl;
+			dot << "    nodo" << (i + 1) << "->nodo" << i << endl;
+
+		}
+		if (this->getSize_LD() == 0) { dot << "    nodo" << 0 << "[label=\"" << "Lista Vacia" << "\"];" << endl; }
+		dot << "}" << endl;
+		dot.close();
+		system("dot -Tpng .\\grafico\\codigo\\RA.txt -o .\\grafico\\RA.png");
+		system(".\\grafico\\RA.png");
 	}
 private:
 	bool isEmpty() { return size == 0; }

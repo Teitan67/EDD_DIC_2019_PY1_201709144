@@ -61,7 +61,24 @@ class cuboDisperso
 	};
 public:
 	cuboDisperso(string root) {
-		this->root = new Nodo(root, -1, -1);
+		this->root = new Nodo(root, 1990, -1);
+	}
+	string mes(int m) {
+		switch (m) {
+		case 1:return "Enero";
+		case 2:return "Febrero";
+		case 3:return "Marzo";
+		case 4:return "Abril";
+		case 5:return "Mayo";
+		case 6:return "Junio";
+		case 7:return "Julio";
+		case 8:return "Agoto";
+		case 9:return "Septiembre";
+		case 10:return "Octubre";
+		case 11:return "Noviembre";
+		case 12:return "Diciembre";
+		default:return "No se sabe";
+		}
 	}
 
 	Nodo* buscarColumna(int x) {
@@ -134,12 +151,13 @@ public:
 	Nodo* crearFila(int y)
 	{
 		Nodo *cabeza_fila = this->root;
-		Nodo *fila = this->insertar_ordenado_fila(new Nodo(to_string(y), -1, y), cabeza_fila);
+		Nodo *fila = this->insertar_ordenado_fila(new Nodo(mes(y), 1990, y), cabeza_fila);
 		return fila;
 	}
-	void insertar(string album, int x, int y) {
+	void insertar(string albu, int x, int y, album *a) {
 
-		cuboDisperso::Nodo *nuevo = new cuboDisperso::Nodo(album, x, y);
+		cuboDisperso::Nodo *nuevo = new cuboDisperso::Nodo(albu, x, y);
+		nuevo->setDato(a);
 		Nodo *z=buscarNodo(x,y);
 		if (z != 0) {
 			z->setAdelante(nuevo);

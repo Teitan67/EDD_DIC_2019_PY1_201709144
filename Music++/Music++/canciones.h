@@ -3,7 +3,7 @@
 using namespace std;
 class canciones
 {
-	
+public:
 	canciones(string name,string file, int rating) {
 		this->name = name;
 		this->file = file;
@@ -19,7 +19,6 @@ private:
 	string name;
 	string file;
 	int rating;
-public:
 
 };
 

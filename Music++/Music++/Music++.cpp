@@ -15,6 +15,9 @@
 #include "EDD/Pila.h"
 #include "EDD/cola.h"
 #include "Artista.h"
+#include "albums.h"
+#include "canciones.h"
+#include "EDD/LDAlbum.h"
 
 
 // por conveniencia 
@@ -26,7 +29,10 @@ ListaSimple *LS = new ListaSimple();
 ListaDoble *LD = new ListaDoble();
 ListaCircularDoble<int> *LCD = new ListaCircularDoble<int>();
 cola<int> *c = new cola<int>();
-
+album *album0;
+album *album1;
+canciones *ca;
+LDAlbum *TopAlbu = new LDAlbum(); ;
 
 
 //----------------------------Declaracion de funciones-----------------------
@@ -55,6 +61,10 @@ int menu() {
 	generarEspacios(1, "");
 	generarEspacios(1, "5. Artist Report");
 	generarEspacios(1, "");
+	generarEspacios(1, "6. Top 5 Artistas");
+	generarEspacios(1, "");
+	generarEspacios(1, "7. Top 5 Albums");
+	generarEspacios(1, "");
 	generarEspacios(1, "8. Salir");
 	generarEspacios(5, "");
 	generarLinea(9, 32);
@@ -69,6 +79,57 @@ int menu() {
 	cin >> input;
 	cout << endl;
 	return atoi(input);
+}
+int mes(string mes) {
+	if ((mes.compare("Enero")) == 0 || (mes.compare("enero")) == 0)
+	{
+		return 1;
+	}
+	else if ((mes.compare("Febrero")) == 0 || (mes.compare("febrero")) == 0)
+	{
+		return 2;
+	}
+	else if ((mes.compare("Marzo")) == 0 || (mes.compare("marzo")) == 0)
+	{
+		return 3;
+	}
+	else if ((mes.compare("Abril")) == 0 || (mes.compare("abril")) == 0)
+	{
+		return 4;
+	}
+	else if ((mes.compare("Mayo")) == 0 || (mes.compare("mayo")) == 0)
+	{
+		return 5;
+	}
+	else if ((mes.compare("Junio")) == 0 || (mes.compare("junio")) == 0)
+	{
+		return 6;
+	}
+	else if ((mes.compare("Julio")) == 0 || (mes.compare("julio")) == 0)
+	{
+		return 7;
+	}
+	else if ((mes.compare("Agosto")) == 0 || (mes.compare("agosto")) == 0)
+	{
+		return 8;
+	}
+	else if ((mes.compare("Septiembre")) == 0 || (mes.compare("septiembre")) == 0)
+	{
+		return 9;
+	}
+	else if ((mes.compare("Octubre")) == 0 || (mes.compare("octubre")) == 0)
+	{
+		return 10;
+	}
+	else if ((mes.compare("Noviembre")) == 0 || (mes.compare("noviembre")) == 0)
+	{
+		return 11;
+	}
+	else if ((mes.compare("Diciembre")) == 0 || (mes.compare("diciembre")) == 0)
+	{
+		return 12;
+	}
+	return 13;
 }
 void generarLinea(int t, int c)
 {
@@ -116,40 +177,55 @@ void TituloConsola() {
 void Abrir(string ruta) 
 {
 	Artista* artist;
-	string a = "a";
-	
+	int x=-1, y = -1,ratingAlbum=0,ratingArtista=0;
 	std::ifstream ifs(ruta);
 	nlohmann::json Libreria = nlohmann::json::parse(ifs);
 	for (const auto& Artista0 : Libreria["Library"]) 
 	{		
 		artist = new Artista(Artista0["Artist"]["Name"]);
 		LD->add_first_LD(artist);
-		for (const auto& album : Artista0["Artist"]["Albums"])
+		ratingArtista = 0;
+		int iteracionesAr = 0;
+		for (const auto& albumI : Artista0["Artist"]["Albums"])
 		{
-		
-			std::cout << "\t\t"<<  album["Name"] << endl;
-			std::cout << "\t\t" << album["Year"] << endl;
-			std::cout << "\t\t" << album["Month"] << endl;
-			//alb = artist->getAlbum();
-
-			//alb->insertar("a", 1, ye);
-			for (const auto& canciones : album["Songs"])
+			string x = albumI["Year"];
+			string y = albumI["Month"];
+			int cy =  mes(y);
+			album0 = new album(albumI["Name"], albumI["Year"], albumI["Month"]);
+			TopAlbu->add_first_LDA(album0);
+			ratingAlbum = 0;
+			int iteracionA = 0;
+			for (const auto& cancionesI : albumI["Songs"])
 			{
-			std::cout << "\t\t\t" << canciones["Name"] << endl;
-			std::cout << "\t\t\t" << canciones["File"] << endl;
-			std::cout << "\t\t\t" << canciones["Rating"] << endl<<endl;
+				string rating = cancionesI["Rating"];
+				int ra = stoi(rating);
+				ca = new canciones(cancionesI["Name"], cancionesI["File"], ra);
+				album0->canciones->add_first_LS(ca);
+				ratingAlbum = ratingAlbum + ra;
+				iteracionA++;
 			}
+			album0->rating = ratingAlbum/ iteracionA;
+			artist->getAlbum()->insertar(albumI["Name"], stoi(x), cy, album0);
+			cout << endl << ratingAlbum << endl;
+			ratingArtista = ratingArtista + ratingAlbum;
+			iteracionesAr++;
 		}
+		artist->rating = ratingArtista/iteracionesAr;
+		cout << endl << artist->rating << endl;
+		//artist->getAlbum()->graficar_cubo();
 	}
+	
 	system("pause");
 }
+
 int main()
 {
 	int opc = 0;
 	system("mode con: cols=100 lines=40");
 	TituloConsola();
-	cuboDisperso * alb = new cuboDisperso("Artista1");
+	
 	string file="";
+	cuboDisperso *alb;
 	do {
 		system("cls");
 		opc = menu();
@@ -164,22 +240,19 @@ int main()
 			
 			break;
 		case 2:
-			
-			alb->insertar("dato1", 8, 2);
-			alb->insertar("dato2", 100, 2);
-			//alb->insertar("dato3", 1, 6);
-			//alb->insertar("dato4", 1, 6);
-			//alb->insertar("dato5", 1, 10);
-			
-			//cout << "Dato: " << endl << alb->buscarNodo("dato4")->getEtiqueta() << endl;
-			alb->graficar_cubo();
-			//cout<<endl<<alb->buscarNodo(1,4)->getDato()<<endl;
-
 			system("pause");
 			break;
 		case 5:
 			LD->ordenarLista();
 			LD->graficar_LD();
+			break;
+		case 6:
+			LD->ordenarListaRating();
+			LD->graficar_LD_R();
+			break;
+		case 7:
+			TopAlbu->ordenarListaRating();
+			TopAlbu->graficar_LD_R();
 			break;
 		case 8:
 			return 0;

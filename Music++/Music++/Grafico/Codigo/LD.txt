@@ -4,10 +4,14 @@ digraph columnas{
     graph [ranksep="1"];
 
     label="Lista Doble de Artistas";
-    nodo1[label="As I Lay Dying"];
-    nodo2[label="As I Lay Dying"];
-    nodo3[label="Underoath"];
-    nodo4[label="Underoath"];
+    nodo1[label="Bring Me The Horizon
+8"];
+    nodo2[label="NF
+23"];
+    nodo3[label="The Almost
+15"];
+    nodo4[label="The Devil Wears Prada
+20"];
 
 
     nodo1->nodo2

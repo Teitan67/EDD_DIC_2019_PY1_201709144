@@ -18,6 +18,7 @@
 #include "albums.h"
 #include "canciones.h"
 #include "EDD/LDAlbum.h"
+#include "PlayListPl.h"
 
 
 // por conveniencia 
@@ -32,7 +33,8 @@ cola<int> *c = new cola<int>();
 album *album0;
 album *album1;
 canciones *ca;
-LDAlbum *TopAlbu = new LDAlbum(); ;
+LDAlbum *TopAlbu = new LDAlbum(); 
+ListaDoblePl *Play;
 
 
 //----------------------------Declaracion de funciones-----------------------
@@ -272,10 +274,17 @@ void importarPlayList(string ruta){
 	std::ifstream ifs(ruta);
 	nlohmann::json plyLst = nlohmann::json::parse(ifs);
 	cout<<"\t\t"<<plyLst["Type"]<<endl;
+	string plyName = plyLst["Type"];
+
+	Play = new ListaDoblePl();
 	for (const auto& song : plyLst["Songs"])
 	{
 		bool f = verificar(song["Artist"], song["Album"], song["Song"]);
 		if (f) {
+			
+			string  r = song["Year"];
+			int ra = stoi(r);
+			Play->add_first_LD(new canciones(song["Song"], song["Artist"], ra));
 			cout << "\t\t\t -" << song["Song"] << endl;
 			cout << "\t\t\t\t -" << song["Artist"] << endl;
 			cout << "\t\t\t\t -" << song["Album"] << endl;
@@ -285,7 +294,12 @@ void importarPlayList(string ruta){
 		{
 			cout<<"\n \t\t No existe cancion en la libreria \n"<<endl;
 		}
-
+	}
+	if (Play->getSize_LD()!=0) {
+		for (int x = 1; x <= Play->getSize_LD();x++) {
+			Play->graficar_LD(1 + (rand() % Play->getSize_LD()));
+			Sleep(3000);
+		}
 	}
 }
 
@@ -373,6 +387,10 @@ int main()
 		case 7:
 			TopAlbu->ordenarListaRating();
 			TopAlbu->graficar_LD_R();
+			break;
+		case 8:
+			
+			
 			break;
 
 		case 12:

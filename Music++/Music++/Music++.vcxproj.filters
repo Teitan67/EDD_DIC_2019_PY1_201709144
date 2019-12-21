@@ -18,9 +18,6 @@
     <ClInclude Include="pch.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="cuboDisperso.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="canciones.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -28,6 +25,15 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="albums.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayList.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbol.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayListPl.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,9 +44,6 @@
     <ClCompile Include="Music++.cpp">
       <Filter>Archivos de encabezado\Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="cuboDisperso.cpp">
-      <Filter>Archivos de encabezado\Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="canciones.cpp">
       <Filter>Archivos de encabezado\Archivos de origen</Filter>
     </ClCompile>
@@ -48,6 +51,15 @@
       <Filter>Archivos de encabezado\Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="albums.cpp">
+      <Filter>Archivos de encabezado\Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayList.cpp">
+      <Filter>Archivos de encabezado\Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbol.cpp">
+      <Filter>Archivos de encabezado\Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayListPl.cpp">
       <Filter>Archivos de encabezado\Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

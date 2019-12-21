@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "cuboDisperso.h"
+#include "EDD/cuboDisperso.h"
 using namespace std;
 class Artista
 {

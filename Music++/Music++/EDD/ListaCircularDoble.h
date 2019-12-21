@@ -1,13 +1,13 @@
 #pragma once
 #include <fstream> 
 #include <string>
+#include "canciones.h"
 using namespace std;
-template <class T>
 class ListaCircularDoble
 {
 	class Nodo {
 	public:
-		Nodo(T x) {
+		Nodo(canciones *x) {
 			siguiente = 0;
 			anterior = 0;
 			dato = x;
@@ -16,11 +16,11 @@ class ListaCircularDoble
 		Nodo *getBefore() { return anterior; }
 		void setNext(Nodo *n) { siguiente = n; }
 		void setBefore(Nodo *n) { anterior = n; }
-		T getDato() { return dato; }
+		canciones* getDato() { return dato; }
 	private:
 		Nodo *siguiente;
 		Nodo *anterior;
-		T dato;
+		canciones *dato;
 	};
 public:
 	ListaCircularDoble() {
@@ -29,10 +29,10 @@ public:
 		size = 0;
 	}
 	int getSize() { return size; }
-	void add_first(T dato);
-	void add_at(T dato, int index);
-	void graficar();
-	T get_element_at(int index);
+	void add_first(canciones *dato);
+	void add_at(canciones *dato, int index);
+	void graficar(int pintar);
+	canciones* get_element_at(int index);
 
 private:
 	bool isEmpty() { return size == 0; }
@@ -41,8 +41,7 @@ private:
 	Nodo *last;
 	~ListaCircularDoble();
 };
-template <class T>
-void ListaCircularDoble<T>::add_first(T dato) {
+void ListaCircularDoble::add_first(canciones* dato) {
 	Nodo *n = new Nodo(dato);
 	if (this->isEmpty())
 	{
@@ -67,8 +66,7 @@ void ListaCircularDoble<T>::add_first(T dato) {
 		this->size++;
 	}
 }
-template<class T>
-T ListaCircularDoble<T>::get_element_at(int index)
+canciones* ListaCircularDoble::get_element_at(int index)
 {
 	if (index >= 0 && index < size)
 	{
@@ -83,13 +81,12 @@ T ListaCircularDoble<T>::get_element_at(int index)
 	}
 	return 0;
 }
-template<class T>
-void ListaCircularDoble<T>::add_at(T dato, int index)
+void ListaCircularDoble::add_at(canciones* dato, int index)
 {
 	if (index >= 0 && index <= this->size)
 	{
 		if (index == 0) { this->add_first(dato); return; }
-		if (index == this->size) { this->add_last(dato); return; }
+		
 		Nodo *aux = this->first;
 		int x = 0;
 		while (aux != 0)
@@ -106,8 +103,7 @@ void ListaCircularDoble<T>::add_at(T dato, int index)
 		this->size++;
 	}
 }
-template <class T>
-void  ListaCircularDoble<T>::graficar() {
+void  ListaCircularDoble::graficar(int pintar) {
 
 	string Ruta = ".\\Grafico\\Codigo\\LCD.txt";
 	std::ofstream dot(Ruta, std::ofstream::out);
@@ -119,7 +115,14 @@ void  ListaCircularDoble<T>::graficar() {
 	dot << "    label=\"Lista Circular\";" << endl;
 
 	for (int i = 1;i <= this->getSize();i++) {
-		dot << "    nodo" << i << "[label=\"" << this->get_element_at(i - 1) << "\"];" << endl;
+		if (pintar == i) {
+			dot << "    nodo" << i << "[label=\"" << this->get_element_at(i - 1)->getName() << "\",style=filled,fillcolor=red];" << endl;
+		}
+		else
+		{
+			dot << "    nodo" << i << "[label=\"" << this->get_element_at(i - 1)->getName() << "\"];" << endl;
+		}
+
 	}
 	dot << endl << endl;
 	for (int i = 1;i <= this->getSize();i++) {

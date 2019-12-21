@@ -4,11 +4,17 @@ digraph cubo{
     graph [ranksep="1"];
 
     label="Cubo Ortogonal";
-    nodo0[label="Underoath", pos="1990,-1!"];
-    nodo1[label="2004", pos="2004,-1!"];
-    nodo2[label="2018", pos="2018,-1!"];
-    nodo3[label="Abril", pos="1990,4!"];
-    nodo4[label="Erase Me", pos="2018,4!"];
-    nodo5[label="Julio", pos="1990,7!"];
-    nodo6[label="They're Only Chasing Safety", pos="2004,7!"];
+    nodo0[label="NF", pos="1990,-1!"];
+    nodo1[label="2016", pos="2016,-1!"];
+    nodo2[label="2015", pos="2015,-1!"];
+    nodo3[label="2017", pos="2017,-1!"];
+    nodo4[label="2019", pos="2019,-1!"];
+    nodo5[label="Marzo", pos="1990,3!"];
+    nodo6[label="Mansion", pos="2015,3!"];
+    nodo7[label="Abril", pos="1990,4!"];
+    nodo8[label="Therapy Session", pos="2016,4!"];
+    nodo9[label="Julio", pos="1990,7!"];
+    nodo10[label="The Search", pos="2019,7!"];
+    nodo11[label="Octubre", pos="1990,10!"];
+    nodo12[label="Perception", pos="2017,10!"];
 }

@@ -3,20 +3,25 @@ digraph columnas{
     node [shape = box];
     graph [ranksep="1"];
 
-    label="Lista Doble de Artistas";
-    nodo1[label="Shaped By Fire
-9"];
-    nodo2[label="Erase Me
-
-9"];
-    nodo3[label="They're Only Chasing Safety
-Erase Me
-
-8"];
+    label="Top 5 de Artistas";
+    nodo1[label="NF
+23"];
+    nodo2[label="The Devil Wears Prada
+20"];
+    nodo3[label="As I Lay Dying
+18"];
+    nodo4[label="Underoath
+17"];
+    nodo5[label="The Almost
+15"];
 
 
     nodo1->nodo2
     nodo2->nodo1
     nodo2->nodo3
     nodo3->nodo2
+    nodo3->nodo4
+    nodo4->nodo3
+    nodo4->nodo5
+    nodo5->nodo4
 }

@@ -4,21 +4,15 @@ digraph columnas{
     graph [ranksep="1"];
 
     label="Lista Circular";
-    nodo1[label="5"];
-    nodo2[label="4"];
-    nodo3[label="3"];
-    nodo4[label="2"];
-    nodo5[label="1"];
+    nodo1[label="Blinded",style=filled,fillcolor=red];
+    nodo2[label="On My Teeth"];
+    nodo3[label="Young and Aspiring"];
 
 
     nodo1->nodo2
     nodo2->nodo1
     nodo2->nodo3
     nodo3->nodo2
-    nodo3->nodo4
-    nodo4->nodo3
-    nodo4->nodo5
-    nodo5->nodo4
-    nodo5->nodo1
-    nodo1->nodo5
+    nodo3->nodo1
+    nodo1->nodo3
 }

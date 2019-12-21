@@ -157,6 +157,7 @@
     <ClInclude Include="Arbol.h" />
     <ClInclude Include="Artista.h" />
     <ClInclude Include="canciones.h" />
+    <ClInclude Include="ListaCanciones.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayList.h" />
     <ClInclude Include="PlayListPl.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Arbol.cpp" />
     <ClCompile Include="Artista.cpp" />
     <ClCompile Include="canciones.cpp" />
+    <ClCompile Include="ListaCanciones.cpp" />
     <ClCompile Include="Music++.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

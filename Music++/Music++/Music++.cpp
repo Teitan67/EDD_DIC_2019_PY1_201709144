@@ -19,23 +19,25 @@
 #include "canciones.h"
 #include "EDD/LDAlbum.h"
 #include "PlayListPl.h"
+#include "ListaCanciones.h"
 
 
 // por conveniencia 
 using namespace std;
  
 //EDD
+ListaCanciones *LC = new ListaCanciones();
 Pila<int> *P = new Pila<int>();
 ListaSimple *LS = new ListaSimple();
 ListaDoble *LD = new ListaDoble();
-ListaCircularDoble<int> *LCD = new ListaCircularDoble<int>();
+ListaCircularDoble *LCD ;
 cola<int> *c = new cola<int>();
 album *album0;
 album *album1;
 canciones *ca;
 LDAlbum *TopAlbu = new LDAlbum(); 
 ListaDoblePl *Play;
-string Shuffle = "Shuffle";
+string Shuffle = "Shuffle", Circular="Circular";
 
 
 //----------------------------Declaracion de funciones-----------------------
@@ -203,6 +205,7 @@ void Abrir(string ruta)
 				string rating = cancionesI["Rating"];
 				int ra = stoi(rating);
 				ca = new canciones(cancionesI["Name"], cancionesI["File"], ra);
+				LC->add_first_LD(ca);
 				album0->canciones->add_first_LS(ca);
 				ratingAlbum = ratingAlbum + ra;
 				iteracionA++;
@@ -274,10 +277,13 @@ bool verificar(string artista, string album, string song) {
 void importarPlayList(string ruta){
 	std::ifstream ifs(ruta);
 	nlohmann::json plyLst = nlohmann::json::parse(ifs);
-	cout<<"\t\t"<<plyLst["Type"]<<endl;
+	std::cout<<"\t\t"<<plyLst["Type"]<<endl;
 	string plyName = plyLst["Type"];
 	if((Shuffle.compare(plyName))==0){
 		Play = new ListaDoblePl();
+	}
+	else if ((Circular.compare(plyName)) == 0) {
+		LCD = new ListaCircularDoble();
 	}
 	
 	for (const auto& song : plyLst["Songs"])
@@ -289,6 +295,10 @@ void importarPlayList(string ruta){
 			int ra = stoi(r);
 			if ((Shuffle.compare(plyName)) == 0) {
 				Play->add_first_LD(new canciones(song["Song"], song["Artist"], ra));
+			}
+			else if ((Circular.compare(plyName)) == 0) {
+				
+				LCD->add_first(new canciones(song["Song"], song["Artist"], ra));
 			}
 			else
 			{
@@ -308,6 +318,20 @@ void importarPlayList(string ruta){
 	if ((Shuffle.compare(plyName)) == 0) {
 		for (int x = 1; x <= Play->getSize_LD();x++) {
 			Play->graficar_LD(1 + (rand() % Play->getSize_LD()));
+			Sleep(3000);
+		}
+	}
+	else if ((Circular.compare(plyName)) == 0) {
+
+		for (int x = 1; x <= LCD->getSize();x++) {
+			LCD->graficar(x);
+			if (x == LCD->getSize()) {
+				for (int w = LCD->getSize(); w >= 1;w--) {
+					LCD->graficar(w);
+					Sleep(3000);
+				}
+				x++;
+			}
 			Sleep(3000);
 		}
 	}
@@ -340,6 +364,16 @@ int main()
 			cin >> file;
 			importarPlayList("Importaciones/" + file);
 			system("pause");
+			break;
+		case 3:
+			if (LC->getSize_LD()!=0) {
+				for (int i = 0; i < LC->getSize_LD(); i++)
+				{
+					cout <<"-> "<< LC->get_element_at_LD(i)->getName() << endl;
+				}
+				system("pause");
+
+			}
 			break;
 		case 5:
 			LD->ordenarLista();

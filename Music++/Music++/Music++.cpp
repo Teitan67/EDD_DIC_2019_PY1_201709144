@@ -35,6 +35,7 @@ album *album1;
 canciones *ca;
 LDAlbum *TopAlbu = new LDAlbum(); 
 ListaDoblePl *Play;
+string Shuffle = "Shuffle";
 
 
 //----------------------------Declaracion de funciones-----------------------
@@ -275,8 +276,10 @@ void importarPlayList(string ruta){
 	nlohmann::json plyLst = nlohmann::json::parse(ifs);
 	cout<<"\t\t"<<plyLst["Type"]<<endl;
 	string plyName = plyLst["Type"];
-
-	Play = new ListaDoblePl();
+	if((Shuffle.compare(plyName))==0){
+		Play = new ListaDoblePl();
+	}
+	
 	for (const auto& song : plyLst["Songs"])
 	{
 		bool f = verificar(song["Artist"], song["Album"], song["Song"]);
@@ -284,7 +287,14 @@ void importarPlayList(string ruta){
 			
 			string  r = song["Year"];
 			int ra = stoi(r);
-			Play->add_first_LD(new canciones(song["Song"], song["Artist"], ra));
+			if ((Shuffle.compare(plyName)) == 0) {
+				Play->add_first_LD(new canciones(song["Song"], song["Artist"], ra));
+			}
+			else
+			{
+				cout << "\t!!! - No se reconocio el tipo!!!!!!"<< endl;
+			}
+			
 			cout << "\t\t\t -" << song["Song"] << endl;
 			cout << "\t\t\t\t -" << song["Artist"] << endl;
 			cout << "\t\t\t\t -" << song["Album"] << endl;
@@ -295,7 +305,7 @@ void importarPlayList(string ruta){
 			cout<<"\n \t\t No existe cancion en la libreria \n"<<endl;
 		}
 	}
-	if (Play->getSize_LD()!=0) {
+	if ((Shuffle.compare(plyName)) == 0) {
 		for (int x = 1; x <= Play->getSize_LD();x++) {
 			Play->graficar_LD(1 + (rand() % Play->getSize_LD()));
 			Sleep(3000);

@@ -66,6 +66,16 @@ public:
 		}
 		return 0;
 	}
+	Artista* get_element(string index)
+	{
+			Nodo *iterador = this->first;
+			while (iterador != 0)
+			{
+				if (index.compare(iterador->getDato()->_nameArtist)==0) {return iterador->getDato();}
+				iterador = iterador->getNext();
+			}
+		return 0;
+	}
 	
 	void ordenarLista()
 	{

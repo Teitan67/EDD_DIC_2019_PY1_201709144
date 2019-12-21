@@ -65,7 +65,7 @@ int menu() {
 	generarEspacios(1, "");
 	generarEspacios(1, "7. Top 5 Albums");
 	generarEspacios(1, "");
-	generarEspacios(1, "8. Salir");
+	generarEspacios(1, "12. Salir");
 	generarEspacios(5, "");
 	generarLinea(9, 32);
 	printf("%c", 200);
@@ -217,6 +217,39 @@ void Abrir(string ruta)
 	
 	system("pause");
 }
+string Navegador() {
+	system("cls");
+	int opc = 0;
+	string input2;
+	generarLinea(3, 10);
+	generarLinea(9, 32);
+	printf("%c", 201);
+	generarLinea(34, 205);
+	cout << "  MUSIC++   ";
+	generarLinea(34, 205);
+	printf("%c", 187);
+	generarLinea(9, 32);
+	generarEspacios(3, "");
+	for (int i = 0;i < LD->getSize_LD();i++) {
+		generarEspacios(1, LD->get_element_at_LD(i)->_nameArtist);
+	}
+	generarEspacios(5, "");
+	generarEspacios(1, "Salir");
+	generarEspacios(5, "");
+	generarLinea(9, 32);
+	printf("%c", 200);
+	generarLinea(80, 205);
+	printf("%c", 188);
+	generarLinea(9, 32);
+	cout << "\n\n";
+	generarLinea(30, 32);
+	cout << "Ingrese Nombre de Artista o Salir: ";
+	cin.ignore();
+	getline(cin,input2);
+	cout << input2;
+	cout << endl;
+		return input2;
+	}
 
 int main()
 {
@@ -224,8 +257,8 @@ int main()
 	system("mode con: cols=100 lines=40");
 	TituloConsola();
 	
-	string file="";
-	cuboDisperso *alb;
+	string file="",opc3="",A2="";
+	string opc2 = "";
 	do {
 		system("cls");
 		opc = menu();
@@ -246,6 +279,53 @@ int main()
 			LD->ordenarLista();
 			LD->graficar_LD();
 			break;
+		case 4:
+			LD->ordenarLista();
+			opc2=Navegador();
+			
+			if (LD->get_element(opc2) != 0) {
+				cout << "Artista: "<< opc2 << endl;
+				cout<< LD->get_element(opc2)->getAlbum()->obtenerAlbuns()<< endl;
+				cout <<"\t\t 1. Generar reporte\n";
+				cout <<"\t\t 2. Abrir Album\n";
+				cout << "\t\t 3. Salir\n";
+				cout << "\t\t Ingrese opcion: ";
+				cin.ignore();
+			
+				cin>>opc3;
+				if ((opc3.compare("1"))==0) {
+					cout << "\t\t Generando reporte...\n";
+					LD->get_element(opc2)->getAlbum()->graficar_cubo();
+					cout << "\t\t Reporte generado!\n";
+				}
+				else if ((opc3.compare("2")) == 0) {
+					cout << "\n\t\t Ingrese Nombre de Album:";
+					cin.ignore();
+					getline(cin,A2);
+					
+					if(LD->get_element(opc2)->getAlbum()->buscarNodo(A2)!=0){
+						int i2=LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->getSize_LS();
+						for (int i = 1;i <= i2;i++) {
+							cout<< "\n\t\t"<<LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->get_element_at_LS(i - 1)->getName() <<"\n" <<endl;
+							cout << "\n\t\t\tFile: " << LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->get_element_at_LS(i - 1)->getFile() << "\n" << endl;
+							cout << "\n\t\t\tRating: " << LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->get_element_at_LS(i - 1)->getRating() << "\n" << endl;
+							
+
+							
+						}
+						LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->graficar_LS();
+
+					}
+				}
+				
+
+				system("pause");
+			}
+			else {
+				cout << "No se reconoce artitsta" << endl;
+				system("pause");
+			}
+			break;
 		case 6:
 			LD->ordenarListaRating();
 			LD->graficar_LD_R();
@@ -254,7 +334,8 @@ int main()
 			TopAlbu->ordenarListaRating();
 			TopAlbu->graficar_LD_R();
 			break;
-		case 8:
+
+		case 12:
 			return 0;
 			break;
 		default:
@@ -265,6 +346,6 @@ int main()
 			break;
 		}
 
-	} while (opc != 8);
+	} while (opc != 12);
 	return 0;
 }

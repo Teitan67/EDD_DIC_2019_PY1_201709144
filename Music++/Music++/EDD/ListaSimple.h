@@ -76,7 +76,7 @@ inline void  ListaSimple::graficar_LS() {
 	dot << "    label=\"Lista Simple\";" << endl;
 
 	for (int i = 1;i <= this->getSize_LS();i++) {
-		dot << "    nodo" << i << "[label=\"" << this->get_element_at_LS(i - 1) << "\"];" << endl;
+		dot << "    nodo" << i << "[label=\"" << this->get_element_at_LS(i - 1)->getName() << "\"];" << endl;
 	}
 	dot << endl << endl;
 	for (int i = 1;i < this->getSize_LS();i++) {

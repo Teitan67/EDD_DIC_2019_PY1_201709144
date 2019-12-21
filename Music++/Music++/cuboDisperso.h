@@ -141,6 +141,37 @@ public:
 
 		return 0;
 	}
+	string  obtenerAlbuns() {
+		string DATA = "";
+		Nodo *b_y = this->root;
+		string verificador("");
+		string salto("\n");
+		if (b_y != 0) {
+			while (b_y->getAbajo() != 0)
+			{
+				Nodo *b_x = b_y->getAbajo();
+				if (b_x != 0)
+				{
+					while (b_x->getDerecha() != 0)
+					{
+						b_x = b_x->getDerecha();
+						string a = b_x->getDato()->_albumName;
+						if (((verificador.compare(a)) == 0)) {
+							
+						}
+						else {
+							DATA=DATA.append(salto.append(b_x->getDato()->_albumName.append(salto)));
+							verificador = b_x->getDato()->_albumName;
+						}
+					}
+					b_y = b_y->getAbajo();
+				}
+			}
+			return DATA;
+
+		}
+		return "NO DATA";
+	}
 
 	Nodo* crearColumna(int x) 
 	{

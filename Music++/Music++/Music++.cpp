@@ -294,7 +294,12 @@ void importarPlayList(string ruta){
 			string  r = song["Year"];
 			int ra = stoi(r);
 			if ((Shuffle.compare(plyName)) == 0) {
-				Play->add_first_LD(new canciones(song["Song"], song["Artist"], ra));
+				int Ale = 0;
+				if(Play->getSize_LD()!=0){
+					Ale = rand() % Play->getSize_LD();
+				}	
+				Play->add_at(new canciones(song["Song"], song["Artist"], ra), Ale);
+				
 			}
 			else if ((Circular.compare(plyName)) == 0) {
 				

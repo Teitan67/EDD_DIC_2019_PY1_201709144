@@ -4,28 +4,13 @@ digraph columnas{
     graph [ranksep="1"];
 
     label="Lista Doble de Artistas";
-    nodo1[label="As I Lay Dying
-18"];
-    nodo2[label="Bring Me The Horizon
-8"];
-    nodo3[label="NF
-23"];
-    nodo4[label="The Almost
-15"];
-    nodo5[label="The Devil Wears Prada
-20"];
-    nodo6[label="Underoath
-17"];
+    nodo1[label="On My Teeth"];
+    nodo2[label="Blinded",style=filled,fillcolor=red];
+    nodo3[label="Young and Aspiring"];
 
 
     nodo1->nodo2
     nodo2->nodo1
     nodo2->nodo3
     nodo3->nodo2
-    nodo3->nodo4
-    nodo4->nodo3
-    nodo4->nodo5
-    nodo5->nodo4
-    nodo5->nodo6
-    nodo6->nodo5
 }

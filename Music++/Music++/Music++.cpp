@@ -250,6 +250,44 @@ string Navegador() {
 	cout << endl;
 		return input2;
 	}
+bool verificar(string artista, string album, string song) {
+	if(LD->get_element(artista)!=0) {
+		if (LD->get_element(artista)->getAlbum() != 0) {
+			if (LD->get_element(artista)->getAlbum()->buscarNodo(album)->getDato()) {
+				if (LD->get_element(artista)->getAlbum()->buscarNodo(album)->getDato()->canciones->get_element_LS(song))
+				{
+					return true;
+				}
+			}
+
+		}
+	}
+	else
+	{
+		return false;
+	}
+
+}
+void importarPlayList(string ruta){
+	std::ifstream ifs(ruta);
+	nlohmann::json plyLst = nlohmann::json::parse(ifs);
+	cout<<"\t\t"<<plyLst["Type"]<<endl;
+	for (const auto& song : plyLst["Songs"])
+	{
+		bool f = verificar(song["Artist"], song["Album"], song["Song"]);
+		if (f) {
+			cout << "\t\t\t -" << song["Song"] << endl;
+			cout << "\t\t\t\t -" << song["Artist"] << endl;
+			cout << "\t\t\t\t -" << song["Album"] << endl;
+			cout << "\t\t\t\t" << song["Year"];
+			cout << "\t\t" << song["Month"] << endl;
+		}else
+		{
+			cout<<"\n \t\t No existe cancion en la libreria \n"<<endl;
+		}
+
+	}
+}
 
 int main()
 {
@@ -273,6 +311,10 @@ int main()
 			
 			break;
 		case 2:
+			cout << "\t\t\tIngrese nombre de archivo: ";
+			cin.clear();
+			cin >> file;
+			importarPlayList("Importaciones/" + file);
 			system("pause");
 			break;
 		case 5:
@@ -309,9 +351,7 @@ int main()
 							cout<< "\n\t\t"<<LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->get_element_at_LS(i - 1)->getName() <<"\n" <<endl;
 							cout << "\n\t\t\tFile: " << LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->get_element_at_LS(i - 1)->getFile() << "\n" << endl;
 							cout << "\n\t\t\tRating: " << LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->get_element_at_LS(i - 1)->getRating() << "\n" << endl;
-							
-
-							
+	
 						}
 						LD->get_element(opc2)->getAlbum()->buscarNodo(A2)->getDato()->canciones->graficar_LS();
 

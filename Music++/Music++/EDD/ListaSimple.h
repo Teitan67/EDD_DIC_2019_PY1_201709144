@@ -28,6 +28,7 @@ public:
 	void add_first_LS(canciones* dato);
 	void graficar_LS();
 	canciones* get_element_at_LS(int index);
+	canciones* get_element_LS(string index);
 
 private:
 	bool isEmpty() { return size == 0; }
@@ -63,6 +64,17 @@ inline canciones* ListaSimple::get_element_at_LS(int index)
 			x++;	
 		}
 	}
+	return 0;
+}
+inline canciones* ListaSimple::get_element_LS(string index)
+{
+	
+		Nodo *iterador = this->first;
+		while (iterador!=0)
+		{
+			if ((index.compare(iterador->getDato()->getName()))==0) { return iterador->getDato(); }
+			iterador = iterador->getNext();
+		}
 	return 0;
 }
 inline void  ListaSimple::graficar_LS() {
